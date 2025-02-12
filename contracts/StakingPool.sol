@@ -43,7 +43,6 @@ contract StakingPool {
     function stake(uint256 _amount) external {
         if (_amount == 0) revert Errors.InvalidAmount();
 
-        // Update state before external call
         stakeId++;
         stakes[stakeId] = Stake({
             staker: msg.sender,
@@ -57,7 +56,6 @@ contract StakingPool {
 
         userStakeIds[msg.sender].push(stakeId);
 
-        // External call
         if (!token.transferFrom(msg.sender, address(this), _amount)) revert Errors.TransferFailed();
 
         emit Events.Staked(msg.sender, _amount, stakeId);
